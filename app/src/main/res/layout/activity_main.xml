@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@drawable/bag1"
+    >
+
+    <RelativeLayout
+        android:id="@+id/r_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="5dp">
+
+    <EditText
+        android:id="@+id/et_1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="#2b2b2b"
+        android:textSize="16sp"
+        android:hint="用户名/电话"
+        android:inputType="number"
+        android:textColorHint="@color/black"
+        android:background="@drawable/et_1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:maxLines="1"
+        android:drawableLeft="@drawable/user"
+        android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/et_2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/et_1"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/et_1"
+            android:drawableLeft="@drawable/icon_psw"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="#2b2b2b"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/bt_register"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/et_2"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="6dp"
+        android:text="注册"
+        android:textColor="@color/black"
+        android:background="@drawable/bg_button"
+        android:textSize="20dp"/>
+    <Button
+        android:id="@+id/bt_login"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/et_2"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="205dp"
+        android:text="登录"
+        android:textColor="@color/black"
+        android:background="@drawable/bg_button"
+        android:textSize="20dp"/>
+
+     <TextView
+         android:id="@+id/forget_bt"
+         android:layout_width="wrap_content"
+         android:layout_height="20dp"
+         android:layout_below="@id/bt_login"
+         android:text="忘记密码？"
+         android:layout_marginTop="8dp"
+         android:layout_marginLeft="6dp"
+         android:textColor="@color/black"
+         />
+
+        <TextView
+            android:id="@+id/else_way"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:text=">>其他登录方式"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/forget_bt"
+            />
+    </RelativeLayout>
+</RelativeLayout>
