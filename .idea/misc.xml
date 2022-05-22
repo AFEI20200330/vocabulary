@@ -10,10 +10,11 @@
         <entry key="..\:/Android/vocabulary/app/src/main/res/drawable/et_2.xml" value="0.1" />
         <entry key="..\:/Android/vocabulary/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2015" />
         <entry key="..\:/Android/vocabulary/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Android/vocabulary/app/src/main/res/layout/activity_learn_more.xml" value="0.2" />
         <entry key="..\:/Android/vocabulary/app/src/main/res/layout/activity_main.xml" value="0.1876870457460453" />
         <entry key="..\:/Android/vocabulary/app/src/main/res/layout/activity_memory.xml" value="0.2" />
-        <entry key="..\:/Android/vocabulary/app/src/main/res/layout/activity_register.xml" value="0.264" />
-        <entry key="..\:/Android/vocabulary/app/src/main/res/menu/memory_men.xml" value="0.1996579734929457" />
+        <entry key="..\:/Android/vocabulary/app/src/main/res/layout/activity_register.xml" value="0.1" />
+        <entry key="..\:/Android/vocabulary/app/src/main/res/menu/memory_men.xml" value="0.1" />
         <entry key="..\:/Android/vocabulary/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Android/vocabulary/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2015" />
       </map>
