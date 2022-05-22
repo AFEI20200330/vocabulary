@@ -22,7 +22,9 @@ public class LearnMoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_learn_more);
 
         webViewMemory = findViewById(R.id.wv2);
+        //设置，支持js
         webViewMemory.getSettings().setJavaScriptEnabled(true);
+        //clent监听页面跳转
         webViewMemory.setWebViewClient(new MyWebVIewClient());
         webViewMemory.setWebChromeClient(new MyWebChromeClient());
         webViewMemory.loadUrl("Https://m.baidu.com");
@@ -32,6 +34,7 @@ public class LearnMoreActivity extends AppCompatActivity {
 
     //自己的MyWebViewClient
     class MyWebVIewClient extends WebViewClient {
+        //在点击页面里的连接进行跳转的时候，继续在webview里加载，不用跳转到外部浏览爱情
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             view.loadUrl(request.getUrl().toString());
