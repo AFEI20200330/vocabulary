@@ -1,5 +1,7 @@
 package com.example.vocabulary;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     private Button bt1;
     private Button bt2;
+    private Button bt3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,33 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,MemoryActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        bt3=(Button)findViewById(R.id.bt_else_way);
+        bt3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("请选择你想要登录的方式:").setNegativeButton("WeChat账号", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(MainActivity.this, null);
+                        startActivity(intent);
+                    }
+                }).setNeutralButton("Github账号", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(MainActivity.this, null);
+                        startActivity(intent);
+                    }
+                }).setPositiveButton("Twitter账号", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(MainActivity.this, null);
+                        startActivity(intent);
+                    }
+                }).show();
             }
         });
     }

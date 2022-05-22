@@ -14,7 +14,7 @@
         android:padding="5dp">
 
     <EditText
-        android:id="@+id/et_1"
+        android:id="@+id/et_username_tel"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textColor="#2b2b2b"
@@ -30,10 +30,10 @@
         android:layout_marginTop="10dp"/>
 
         <EditText
-            android:id="@+id/et_2"
+            android:id="@+id/psw"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/et_1"
+            android:layout_below="@id/et_username_tel"
             android:layout_marginTop="15dp"
             android:background="@drawable/et_1"
             android:drawableLeft="@drawable/icon_psw"
@@ -50,7 +50,7 @@
         android:id="@+id/bt_register"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_below="@id/et_2"
+        android:layout_below="@id/psw"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="6dp"
         android:text="注册"
@@ -61,7 +61,7 @@
         android:id="@+id/bt_login"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_below="@id/et_2"
+        android:layout_below="@id/psw"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="205dp"
         android:text="登录"
@@ -80,16 +80,17 @@
          android:textColor="@color/black"
          />
 
-        <TextView
-            android:id="@+id/else_way"
+        <Button
+            android:id="@+id/bt_else_way"
             android:layout_width="250dp"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:text=">>其他登录方式"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:layout_marginLeft="150dp"
             android:layout_marginTop="10dp"
             android:layout_below="@id/forget_bt"
+            android:background="#00000000"
             />
     </RelativeLayout>
 </RelativeLayout>
