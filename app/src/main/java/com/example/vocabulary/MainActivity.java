@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
+import com.example.vocabulary.widget.CustomDialog;
+
 public class MainActivity extends AppCompatActivity {
     private Button bt1;
     private Button bt2;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         bt1=findViewById(R.id.bt_register);
         bt1.setOnClickListener(new View.OnClickListener() {
@@ -32,8 +35,21 @@ public class MainActivity extends AppCompatActivity {
         bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,MemoryActivity.class);
+                CustomDialog customDialog = new CustomDialog(MainActivity.this);
+                customDialog.setTitle("提示").setMessage("确认登录吗？").setCancel("取消", new CustomDialog.IOnCancelListener() {
+                    @Override
+                    public void onCancel(CustomDialog dialog) {
+                            dialog.dismiss();
+                    }
+                }).setConfirm("确认", new CustomDialog.IOnConfirmListener() {
+                    @Override
+                    public void onConfirm(CustomDialog dialog) {
+                 Intent intent = new Intent(MainActivity.this,MemoryActivity.class);
                 startActivity(intent);
+                    }
+                }).show();
+
+
             }
         });
 
