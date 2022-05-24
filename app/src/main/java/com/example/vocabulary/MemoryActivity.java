@@ -11,21 +11,50 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.vocabulary.util.Dao;
 import com.example.vocabulary.util.ToastUtil;
 
 import java.util.Random;
 
 public class MemoryActivity extends AppCompatActivity {
     private WebView webViewMemory;
+    private Button btBs;
+    private Button btJy;
+    private Button btFx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory);
+
+
         webViewMemory = (WebView) findViewById(R.id.wv);
+        btBs=findViewById(R.id.bt_bs);
+        btJy=findViewById(R.id.bt_jiyi);
+        btFx=findViewById(R.id.bt_fuxi);
+
+        btBs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMessage("开始背诵模式");
+//                String word="abandon";
+//                String a="A.放弃，抛弃，遗弃";
+//                String b="B.那里，在那里";
+//                String c="C.不放弃，不抛弃，坚持";
+//                String tru="答对了";
+//                String fal="答错了";
+                Random random = new Random();
+                int k = random.nextInt(3) + 1;
+                String[] s = new String[]{"abandon", "放弃，抛弃，遗弃", "那里，在那里", "不放弃，不抛弃，坚持"};
+                builderSet(s, k);
+            }
+        });
+
     }
 
     @Override

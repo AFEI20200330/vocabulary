@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MemoryActivity">
+    tools:context=".MemoryActivity"
+    android:background="@drawable/bag1">
 
     <WebView
         android:id="@+id/wv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#00000000"
         />
-</LinearLayout>
+    <Button
+        android:id="@+id/bt_bs"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="6dp"
+        android:text="背诵模式"
+        android:textColor="@color/black"
+        android:background="@drawable/bg_button"
+        android:layout_centerInParent="true"
+        android:textSize="20dp"/>
+
+    <Button
+        android:id="@+id/bt_jiyi"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_button"
+        android:text="记忆模式"
+        android:textColor="@color/black"
+        android:layout_below="@id/bt_bs"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="6dp"
+        android:layout_centerInParent="true"
+        android:textSize="20dp" />
+    <Button
+        android:id="@+id/bt_fuxi"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_button"
+        android:text="复习模式"
+        android:textColor="@color/black"
+        android:layout_below="@id/bt_jiyi"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="6dp"
+        android:layout_centerInParent="true"
+        android:textSize="20dp" />
+
+</RelativeLayout>
