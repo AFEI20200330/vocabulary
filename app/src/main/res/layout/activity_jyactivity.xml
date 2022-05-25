@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".JYActivity"
+    android:padding="20dp">
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="abandon 放弃，抛弃，遗弃,例句：How dare an you choose to abandon?"
+        android:layout_marginTop="10dp"
+        android:textSize="30dp"
+    />
+    <TextView
+        android:id="@+id/tv_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="book 书本，书籍,课本,例句：This is a book."
+        android:textSize="30dp"
+        android:layout_below="@id/tv_1"
+        />
+    <TextView
+        android:id="@+id/tv_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Money 金钱，财产,钱币,例句：Money is a charming thing."
+        android:textSize="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tv_2"
+        />
+    <TextView
+        android:id="@+id/tv_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="administration行政管理,例句：His major is administration."
+        android:textAllCaps="false"
+        android:textSize="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tv_3"
+        />
+
+</RelativeLayout>

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -16,9 +17,14 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.vocabulary.Entity.Word;
+import com.example.vocabulary.util.DBOpenHelper;
 import com.example.vocabulary.util.Dao;
 import com.example.vocabulary.util.ToastUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class MemoryActivity extends AppCompatActivity {
@@ -26,17 +32,58 @@ public class MemoryActivity extends AppCompatActivity {
     private Button btBs;
     private Button btJy;
     private Button btFx;
+    private DBOpenHelper dbOpenHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory);
-
-
+        //实例化dbOpenheler
+        dbOpenHelper = new DBOpenHelper(MemoryActivity.this,"Person.db",null,1);
         webViewMemory = (WebView) findViewById(R.id.wv);
         btBs=findViewById(R.id.bt_bs);
         btJy=findViewById(R.id.bt_jiyi);
         btFx=findViewById(R.id.bt_fuxi);
+
+        btJy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMessage("开始记忆模式");
+                Intent intent = new Intent(MemoryActivity.this,JYActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btFx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMessage("开始复习模式");
+                BS();
+            }
+        });
+//
+//        Random random = new Random();
+//        int rid = random.nextInt(340)+1;
+//        String[] rd={String.valueOf(rid)};
+//        System.out.println("rid是"+rid);
+//        Cursor cursor = dbOpenHelper.getReadableDatabase().query("EnWords",null,"id=?",rd,null,null,null);
+//
+////        DBOpenHelper dbOpenHelper = new DBOpenHelper(MemoryActivity.this,"Person.db",null,1);
+//
+//        ArrayList<Word> arrayList= new ArrayList<Word>();
+//        Word word=new Word();
+//        while (cursor.moveToNext()){
+////                    Map<String,String> map = new HashMap<String,String>();
+//            word.setId(cursor.getInt(0));
+//            word.setWord(cursor.getString(1));
+//            word.setTranslation(cursor.getString(2));
+//            arrayList.add(word);
+//            System.out.println(arrayList);
+////                    map.put("word",cursor.getString(1);
+////                    map.put("translation",cursor.getString(2));
+////                    arrayList.add(map);
+//        }
 
         btBs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,12 +95,63 @@ public class MemoryActivity extends AppCompatActivity {
 //                String c="C.不放弃，不抛弃，坚持";
 //                String tru="答对了";
 //                String fal="答错了";
-                Random random = new Random();
-                int k = random.nextInt(3) + 1;
-                String[] s = new String[]{"abandon", "放弃，抛弃，遗弃", "那里，在那里", "不放弃，不抛弃，坚持"};
-                builderSet(s, k);
+
+//                int rid = random.nextInt(340)+1;
+//                String[] rd={String.valueOf(rid)};
+//                System.out.println(rd);
+//                Cursor cursor = MemoryActivity.this.dbOpenHelper.getReadableDatabase().query("Enwords",null,"id=?",rd,null,null,null);
+//
+//                ArrayList<Word> arrayList= new ArrayList<Word>();
+//                Word word=new Word();
+//                while (cursor.moveToNext()){
+////                    Map<String,String> map = new HashMap<String,String>();
+//                    word.setId(cursor.getInt(0));
+//                    word.setWord(cursor.getString(1));
+//                    word.setTranslation(cursor.getString(2));
+//                    arrayList.add(word);
+//                    System.out.println(arrayList);
+////                    map.put("word",cursor.getString(1);
+////                    map.put("translation",cursor.getString(2));
+////                    arrayList.add(map);
+//                }
+//                if(arrayList == null || arrayList.size() ==0){
+//                    Toast.makeText(MemoryActivity.this, "出错了", Toast.LENGTH_SHORT).show();
+//                }else{
+//                    int init=1;
+//                    int id=random.nextInt(init+6);
+//
+////                    String[] s = new String[]{}
+//                }
+                BS();
             }
         });
+
+    }
+
+    public void BS(){
+        Random random = new Random();
+        String[] s1 = new String[]{"abandon", "放弃，抛弃，遗弃", "那里，在那里", "不放弃，不抛弃，坚持"};
+        String[] s2 = new String[]{"book","书本，书籍,课本","义务，感受，责任","放弃，抛弃，遗弃"};
+        String[] s3 = new String[]{"Money","金钱，财产,钱币","书本，课本，书籍","放弃，抛弃，遗弃"};
+        String[] s4 = new String[]{"administration","行政管理","书本，课本，书籍","放弃，抛弃，遗弃"};
+        int k = random.nextInt(3) + 1;
+        int i=random.nextInt(5)+1;
+        switch (i){
+            case 1:
+                builderSet(s1, k);
+                break;
+            case 2:
+                builderSet(s2, k);
+                break;
+            case 3:
+                builderSet(s3, k);
+                break;
+            case 4:
+                builderSet(s4, k);
+                break;
+            default:
+                break;
+        }
 
     }
 
@@ -65,9 +163,9 @@ public class MemoryActivity extends AppCompatActivity {
     }
 
     //String[]数组用来存储多个信息，其中String[0]存储单词，String[1]存储正确选项，String[2]存储错误选项，String[3]存储错选项2
-    public boolean builderSet(String[] s,int k) {
+    public void builderSet(String[] s,int k) {
         if(s == null) {
-            return false;
+            return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(MemoryActivity.this);
         switch (k) {
@@ -95,7 +193,7 @@ public class MemoryActivity extends AppCompatActivity {
                         setTitle(s[0]+s[1]);
                     }
                 }).setCancelable(false).show();
-                return true;
+                break;
             case 2:
                 builder.setTitle("请选择你认为正确的选项:").setMessage(s[0])
                         .setPositiveButton("A."+s[2], new DialogInterface.OnClickListener() {
@@ -119,7 +217,7 @@ public class MemoryActivity extends AppCompatActivity {
                         setTitle(s[0]+s[1]);
                     }
                 }).setCancelable(false).show();
-                return true;
+                break;
             case 3:
                 builder.setTitle("请选择你认为正确的选项:").setMessage(s[0])
                         .setNeutralButton("C."+s[2], new DialogInterface.OnClickListener() {
@@ -143,13 +241,13 @@ public class MemoryActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 }).setCancelable(false).show();
-                return true;
+                break;
 
             default:
                 break;
 
         }
-        return false;
+        return;
     }
 
     @Override
@@ -199,6 +297,8 @@ public class MemoryActivity extends AppCompatActivity {
                     break;
                 case R.id.item2:
                     showMessage("开始记忆模式");
+                    Intent intent = new Intent(MemoryActivity.this,JYActivity.class);
+                    startActivity(intent);
                     flag =false;
                     break;
                 case R.id.item4:
@@ -208,8 +308,13 @@ public class MemoryActivity extends AppCompatActivity {
                     break;
                 case R.id.item5:
                     //加载网页
-                    Intent intent = new Intent(MemoryActivity.this, LearnMoreActivity.class);
-                    startActivity(intent);
+                    Intent intent2 = new Intent(MemoryActivity.this, LearnMoreActivity.class);
+                    startActivity(intent2);
+                    flag=false;
+                    break;
+                case R.id.it_exit:
+                    Intent intent3 = new Intent(MemoryActivity.this,LoginActivity.class);
+                    startActivity(intent3);
                     flag=false;
                     break;
                 default:

@@ -2,15 +2,20 @@ package com.example.vocabulary;
 
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.view.accessibility.AccessibilityViewCommand;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -21,6 +26,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.vocabulary.util.MD5Utils;
+import com.example.vocabulary.util.MyDatabaseHelper;
 import com.example.vocabulary.widget.CustomDialog;
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,17 +34,30 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_register;
     private Button btn_login;
     private Button bt3;
+    private Button btn_gorget;
+    private int id=0;
 
     private String userName,psw,spPsw;
     private EditText et_user_name,et_psw;
+    private MyDatabaseHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createNotificationChannel("@me","@我的消息",NotificationManager.IMPORTANCE_HIGH);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        init();
 
-        btn_register=findViewById(R.id.btn_register);
+        btn_gorget=(Button)findViewById(R.id.forget_bt);
+        dbHelper = new MyDatabaseHelper(this,"Person.db",null,1);
+        btn_gorget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbHelper.getWritableDatabase();
+            }
+        });
+
+
+//        btn_register=findViewById(R.id.btn_register);
 //        btn_register.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -47,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        });
 
-        btn_login=findViewById(R.id.btn_login);
+//        btn_login=findViewById(R.id.btn_login);
 //        btn_login.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -99,10 +118,6 @@ public class LoginActivity extends AppCompatActivity {
                 }).show();
             }
         });
-    }
-
-
-    private void init() {
         btn_register=findViewById(R.id.btn_register);
         btn_login=findViewById(R.id.btn_login);
         et_user_name=findViewById(R.id.et_user_name);
@@ -130,51 +145,83 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }else if(md5Psw.equals(spPsw)){
                     customDialog.setTitle("提示").setMessage("确认登录吗？").setCancel("取消", new CustomDialog.IOnCancelListener() {
-                    @Override
-                    public void onCancel(CustomDialog dialog) {
+                        @Override
+                        public void onCancel(CustomDialog dialog) {
                             dialog.dismiss();
-                    }
-                     }).setConfirm("确认", new CustomDialog.IOnConfirmListener() {
-                    @Override
-                    public void onConfirm(CustomDialog dialog) { Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                        saveLoginStatus(true, userName);
-                        Intent data=new Intent();
-                        data.putExtra("isLogin",true);
-                        setResult(RESULT_OK,data);
-                        LoginActivity.this.finish();
-                        data.setAction("android.intent.action.memory");
-                        startActivity(data);
-                        dialog.dismiss();
+                        }
+                    }).setConfirm("确认", new CustomDialog.IOnConfirmListener() {
+                        @Override
+                        public void onConfirm(CustomDialog dialog) { Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                            saveLoginStatus(true, userName);
+                            Intent data=new Intent();
+                            data.putExtra("isLogin",true);
+                            setResult(RESULT_OK,data);
+                            LoginActivity.this.finish();
+                            data.setAction("android.intent.action.memory");
+                            startActivity(data);
+                            dialog.dismiss();
 
-                        //创建并发送通知
-                        //获取通知管理对象
-                        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                        //创建通知对象
-                        NotificationCompat.Builder notification = new NotificationCompat.Builder(
-                        LoginActivity.this,"@me")
-                        //设置通知图标
-                            .setSmallIcon(R.drawable.bb)
-                        //通知标题
-                            .setContentTitle("登录通知")
-                            .setContentText("您已经登陆了阿飞单词书，点击查看详情")
-                        //设置发送时间
-                            .setWhen(System.currentTimeMillis())
-                        //设置声音和振动
-                            .setDefaults(Notification.DEFAULT_SOUND| Notification.DEFAULT_VIBRATE);
-                        //创建一个启动一个详细页面的intent
-//                        notificationManager.notify(1,
-//                                notification.build());
-                        System.out.println("通知已发送");
+                            NotificationManager manager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                            Intent intent = new Intent(LoginActivity.this,MemoryActivity.class);
+                            PendingIntent pendingIntent = PendingIntent.getActivity(
+                                    LoginActivity.this,
+                                    0,
+                                    intent,
+                                    PendingIntent.FLAG_MUTABLE
+                            );
+                            Intent bcIntent=new Intent("com.example.notification.CLOSE_NOTIFICATION");
+                            bcIntent.setPackage(getPackageName());//重要，不设置可能会无效
+                            bcIntent.putExtra("nid",id);
 
-                        Intent intent = new Intent(LoginActivity.this,MemoryActivity.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(LoginActivity.this,0,intent,PendingIntent.FLAG_IMMUTABLE);
-                        notification.setContentIntent(pendingIntent);//设置通知栏点击跳转
-                        notificationManager.notify(NOTIFYID,notification.build());//发送通知
+                            PendingIntent onClickPendingIntent = PendingIntent.getBroadcast(
+                                    LoginActivity.this,
+                                    id,
+                                    bcIntent,
+                                    PendingIntent.FLAG_MUTABLE|PendingIntent.FLAG_UPDATE_CURRENT
+                            );
+                            Notification notification = new NotificationCompat.Builder(LoginActivity.this,"@me")
+                                    .setContentInfo("登录通知")
+                                    .setContentText("您已登录阿飞单词书，请知悉")
+                                    .setContentIntent(pendingIntent)
+                                    .setWhen(System.currentTimeMillis())
+                                    .setSmallIcon(R.drawable.bb)
+                                    .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.bb))
+                                    .setAutoCancel(true)
+                                    .setDefaults(Notification.DEFAULT_ALL)
+                                    .addAction(0,"关闭通知",onClickPendingIntent)
+                                    .build();
+                            manager.notify(id++,notification);
 
-                        return;
-                        //隐式跳转
-                    }
-                }).show();
+
+//                        //创建并发送通知
+//                        //获取通知管理对象
+//                        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//                        //创建通知对象
+//                        NotificationCompat.Builder notification = new NotificationCompat.Builder(
+//                        LoginActivity.this,"@me")
+//                        //设置通知图标
+//                            .setSmallIcon(R.drawable.bb)
+//                        //通知标题
+//                            .setContentTitle("登录通知")
+//                            .setContentText("您已经登陆了阿飞单词书，点击查看详情")
+//                        //设置发送时间
+//                            .setWhen(System.currentTimeMillis())
+//                        //设置声音和振动
+//                            .setDefaults(Notification.DEFAULT_SOUND| Notification.DEFAULT_VIBRATE);
+//                        //创建一个启动一个详细页面的intent
+////                        notificationManager.notify(1,
+////                                notification.build());
+//                        System.out.println("通知已发送");
+//
+//                        Intent intent = new Intent(LoginActivity.this,MemoryActivity.class);
+//                        PendingIntent pendingIntent = PendingIntent.getActivity(LoginActivity.this,0,intent,PendingIntent.FLAG_IMMUTABLE);
+//                        notification.setContentIntent(pendingIntent);//设置通知栏点击跳转
+//                        notificationManager.notify(NOTIFYID,notification.build());//发送通知
+
+                            return;
+                            //隐式跳转
+                        }
+                    }).show();
                 }else if((spPsw!=null&&!TextUtils.isEmpty(spPsw)&&!md5Psw.equals(spPsw))){
                     Toast.makeText(LoginActivity.this, "输入的用户名和密码不一致", Toast.LENGTH_SHORT).show();
                     return;
@@ -184,6 +231,24 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void init() {
+
+    }
+
+    private String createNotificationChannel(String channelId,String channelNAME,int level){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel(channelId,channelNAME,level);
+            channel.setDescription("通知级别"+level);
+            manager.createNotificationChannel(channel);
+            return channelId;
+        }else {
+            return null;
+        }
+    }
+
 
     //从SharedPreferences中根据用户名读取密码
     private String readPsw(String userName){

@@ -9,15 +9,15 @@
         android:title="记忆模式"
         />
     <item
-        android:id="@+id/item3"
-        android:title="Settings"
-        />
-    <item
         android:id="@+id/item4"
         android:title="About Us"
         />
     <item
         android:id="@+id/item5"
         android:title="Learn More"
+        />
+    <item
+        android:id="@+id/it_exit"
+        android:title="Login Out"
         />
 </menu>
